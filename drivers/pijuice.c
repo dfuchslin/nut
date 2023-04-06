@@ -543,6 +543,12 @@ static void get_battery_temperature(void)
 
 	I2C_READ_WORD( upsfd, cmd, __func__ )
 
+	data &= 0x00FF;
+	if ( data & ( 1 << 7 ) )
+	{
+		data = data - ( 1 << 8 );
+	}
+
 	upsdebugx( 1, "Battery Temperature: %d°C", data );
 	dstate_setinfo( "battery.temperature", "%d", data );
 }
